@@ -29,7 +29,7 @@
     "prettier": "prettier --write .",
     "prepare": "husky install",
     "lint": "lint-staged",
-    "commit": "git-cz"
+    "commit": "prettier --write . && git-cz"
   },
   "lint-staged": {
     "*.{js,jsx}": [
