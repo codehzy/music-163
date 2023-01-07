@@ -1,40 +1,24 @@
-import React, { FC, memo, ReactNode, useEffect, useState } from 'react'
-import hzyRequest from '@/service'
+import React, { FC, memo, ReactNode, useEffect } from 'react'
+import { useAppDispatch } from '../../../../store/hooks/useApp'
+import TopBanner from './c-cpns/top-banner'
+import { fetchBannerDataAction } from './store/recommend'
+import { RecommendWrapper } from './style'
 
 interface IProps {
   children?: ReactNode
 }
 
-type IBannerType = {
-  imageUrl: string
-  targetId: number
-  targetType: number
-  titleColor: string
-  typeTitle: string
-  url: string
-  exclusive: boolean
-  scm: string
-  bannerBizType: string
-}
-
 const Recommend: FC<IProps> = () => {
-  const [bannerList, setBannerList] = useState<IBannerType[]>([])
+  // dispatch action
+  const dispatch = useAppDispatch()
   useEffect(() => {
-    hzyRequest
-      .get({
-        url: '/banner'
-      })
-      .then((res) => {
-        setBannerList(res.banners)
-      })
+    dispatch(fetchBannerDataAction())
   }, [])
 
   return (
-    <div>
-      {bannerList.map((item) => {
-        return <div key={item.imageUrl}>{item.imageUrl}</div>
-      })}
-    </div>
+    <RecommendWrapper>
+      <TopBanner />
+    </RecommendWrapper>
   )
 }
 
