@@ -1,7 +1,7 @@
 const Download = lazy(() => import('@/views/download'))
 const Mine = lazy(() => import('@/views/mine'))
 const Discover = lazy(() => import('@/views/discover'))
-const Friend = lazy(() => import('@/views/friend'))
+const Focus = lazy(() => import('@/views/focus'))
 const Recommend = lazy(() => import('@/views/discover/c-views/recommend'))
 const Ranking = lazy(() => import('@/views/discover/c-views/ranking'))
 const Songs = lazy(() => import('@/views/discover/c-views/songs'))
@@ -56,8 +56,8 @@ const routes: RouteObject[] = [
     element: <Mine />
   },
   {
-    path: '/friend',
-    element: <Friend />
+    path: '/focus',
+    element: <Focus />
   },
   {
     path: '/download',
