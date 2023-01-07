@@ -6,6 +6,8 @@ export const RecommendWrapper = styled.div`
     background-image: url(${require('@/assets/img/wrap-bg.png')});
     display: flex;
 
+    ${(props) => props.theme.mixin.wrapv2}
+
     > .left {
       padding: 20px;
       width: 729px;
