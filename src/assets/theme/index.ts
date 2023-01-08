@@ -26,6 +26,11 @@ const theme = {
     wrapv2: `
       width: 980px;
       margin: 0 auto;
+    `,
+    textNowrap: `
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     `
   }
 }

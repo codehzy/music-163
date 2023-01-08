@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getBanners, getRecommendList } from '../service/recommend'
+import { getBanners, getNewAlbum, getRecommendList } from '../service/recommend'
 
 // redux request
 export const fetchBannerDataAction = createAsyncThunk('banners', async () => {
@@ -17,14 +17,25 @@ export const fetchRecommendListDataAction = createAsyncThunk(
   }
 )
 
+export const fetchNewAlbumListDataAction = createAsyncThunk(
+  'newAlbum',
+  async () => {
+    const res = await getNewAlbum()
+    console.log('newAlbum', res)
+    return res.albums
+  }
+)
+
 interface IRecommendState {
   banners: any[]
   recommendList: any[]
+  newAlbumsList: any[]
 }
 
 const initialState: IRecommendState = {
   banners: [],
-  recommendList: []
+  recommendList: [],
+  newAlbumsList: []
 }
 
 const recommendSlice = createSlice({
@@ -50,6 +61,15 @@ const recommendSlice = createSlice({
       })
       .addCase(fetchRecommendListDataAction.rejected, () => {
         console.log('recommend-rejected')
+      })
+      .addCase(fetchNewAlbumListDataAction.pending, () => {
+        console.log('newAlbum-pending')
+      })
+      .addCase(fetchNewAlbumListDataAction.fulfilled, (state, action) => {
+        state.newAlbumsList = action.payload
+      })
+      .addCase(fetchNewAlbumListDataAction.rejected, () => {
+        console.log('newAlbum-rejected')
       })
   }
 })

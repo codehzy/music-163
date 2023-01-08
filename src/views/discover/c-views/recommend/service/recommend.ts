@@ -11,3 +11,9 @@ export function getRecommendList() {
     url: '/personalized'
   })
 }
+
+export function getNewAlbum() {
+  return hzyRequest.get({
+    url: '/album/newest'
+  })
+}
