@@ -1,6 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { getBanners, getNewAlbum, getRecommendList } from '../service/recommend'
+import {
+  getBanners,
+  getNewAlbum,
+  getPlayListDetail,
+  getRecommendList
+} from '../service/recommend'
 
+const rankingIds = [19723756, 3779629, 2884035]
 // redux request
 export const fetchBannerDataAction = createAsyncThunk('banners', async () => {
   const res = await getBanners()
@@ -11,7 +17,7 @@ export const fetchBannerDataAction = createAsyncThunk('banners', async () => {
 export const fetchRecommendListDataAction = createAsyncThunk(
   'recommendList',
   async () => {
-    const res = await getRecommendList()
+    const res = await getRecommendList(8)
     console.log(res)
     return res.result
   }
@@ -26,16 +32,28 @@ export const fetchNewAlbumListDataAction = createAsyncThunk(
   }
 )
 
+export const fetchGetPlayListDetailAction = createAsyncThunk(
+  'playListDetail',
+  async () => {
+    const promises = rankingIds.map((id) => getPlayListDetail(id))
+
+    const res = await Promise.all(promises)
+    console.log('playListDetail', res)
+    return res
+  }
+)
 interface IRecommendState {
   banners: any[]
   recommendList: any[]
   newAlbumsList: any[]
+  rankings: any[]
 }
 
 const initialState: IRecommendState = {
   banners: [],
   recommendList: [],
-  newAlbumsList: []
+  newAlbumsList: [],
+  rankings: []
 }
 
 const recommendSlice = createSlice({
@@ -70,6 +88,15 @@ const recommendSlice = createSlice({
       })
       .addCase(fetchNewAlbumListDataAction.rejected, () => {
         console.log('newAlbum-rejected')
+      })
+      .addCase(fetchGetPlayListDetailAction.pending, () => {
+        console.log('playListDetail-pending')
+      })
+      .addCase(fetchGetPlayListDetailAction.fulfilled, (state, action) => {
+        state.rankings = action.payload
+      })
+      .addCase(fetchGetPlayListDetailAction.rejected, () => {
+        console.log('playListDetail-rejected')
       })
   }
 })
